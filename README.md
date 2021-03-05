@@ -121,6 +121,40 @@ dogs['coat'] = dogs['coat'].astype("category")
 dogs['coat'] = dogs['coat'].cat.remove_categories(removals=["wirehaired"])
 ```
 
+#### Updating categories
+
+##### Renaming categories
+- supply key val pairs with key being current category and value being the desired category, we can rename categories quickly. `Series.cat.rename_categories(new_categories=dict)`
+- make a dict : my_changes = {'unknown mix':'Unknown'}
+- If we need to collapse categories, the `.replace()` method is quick and easy, but we will need to convert the column back to categorical.
+
+```python
+dogs['breed'] = dogs['breed'].cat.rename_categories(my_changes)
+dogs['breed'].value_counts()
+
+# renaming using lambda functions
+dogs['sex'] = dogs['sex'].cat.rename_categories(lambda c:c.title())
+dogs['sex'].cat.categories
+```
+
+#### Common replacement issues
+- First, the new category must not currently be in the list of categories. Second we cannot use this method to collapse categories.
+
+```python
+cannot_repeat_categories = {
+    'Unknown Mix':'Unknown',
+    'Mixed Breed':'Unknown'
+    }
+```
+
+#### Collapsing categories
+- Dogs hair many different colors, so it might make sense to make new categorical column that just has hair color.
+
+```python
+dogs['color'] = dogs['color'].astype('category')
+dogs['color'].cat.categories
+```
+
 
 
 
